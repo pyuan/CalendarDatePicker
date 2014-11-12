@@ -12,6 +12,8 @@
 		1B3B28D11A14025000916BF5 /* CalendarMonthHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B28CA1A14025000916BF5 /* CalendarMonthHeaderCell.swift */; };
 		1B3B28D31A14025000916BF5 /* CalendarWeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B28CD1A14025000916BF5 /* CalendarWeekCell.swift */; };
 		1B3B28D41A14025000916BF5 /* CalendarWeekCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B3B28CE1A14025000916BF5 /* CalendarWeekCell.xib */; };
+		1B3B28D61A140F9A00916BF5 /* CalendarMonthCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B3B28D51A140F9A00916BF5 /* CalendarMonthCell.xib */; };
+		1B3B28D81A140FAB00916BF5 /* CalendarMonthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B28D71A140FAB00916BF5 /* CalendarMonthCell.swift */; };
 		1B87BF0A1A12C28F0018D8E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B87BF091A12C28F0018D8E6 /* AppDelegate.swift */; };
 		1B87BF0D1A12C28F0018D8E6 /* CalendarDatePicker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1B87BF0B1A12C28F0018D8E6 /* CalendarDatePicker.xcdatamodeld */; };
 		1B87BF0F1A12C28F0018D8E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B87BF0E1A12C28F0018D8E6 /* ViewController.swift */; };
@@ -40,6 +42,8 @@
 		1B3B28CA1A14025000916BF5 /* CalendarMonthHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarMonthHeaderCell.swift; sourceTree = "<group>"; };
 		1B3B28CD1A14025000916BF5 /* CalendarWeekCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarWeekCell.swift; sourceTree = "<group>"; };
 		1B3B28CE1A14025000916BF5 /* CalendarWeekCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarWeekCell.xib; sourceTree = "<group>"; };
+		1B3B28D51A140F9A00916BF5 /* CalendarMonthCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarMonthCell.xib; sourceTree = "<group>"; };
+		1B3B28D71A140FAB00916BF5 /* CalendarMonthCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarMonthCell.swift; sourceTree = "<group>"; };
 		1B87BF041A12C28F0018D8E6 /* CalendarDatePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarDatePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B87BF081A12C28F0018D8E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B87BF091A12C28F0018D8E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +90,8 @@
 		1B3B28C91A14025000916BF5 /* month */ = {
 			isa = PBXGroup;
 			children = (
+				1B3B28D71A140FAB00916BF5 /* CalendarMonthCell.swift */,
+				1B3B28D51A140F9A00916BF5 /* CalendarMonthCell.xib */,
 				1B3B28CA1A14025000916BF5 /* CalendarMonthHeaderCell.swift */,
 			);
 			path = month;
@@ -262,6 +268,7 @@
 				1B87BF121A12C28F0018D8E6 /* Main.storyboard in Resources */,
 				1B87BF171A12C28F0018D8E6 /* LaunchScreen.xib in Resources */,
 				1B3B28D41A14025000916BF5 /* CalendarWeekCell.xib in Resources */,
+				1B3B28D61A140F9A00916BF5 /* CalendarMonthCell.xib in Resources */,
 				1B87BF2F1A12C4F70018D8E6 /* CalendarDatePicker.storyboard in Resources */,
 				1B87BF141A12C28F0018D8E6 /* Images.xcassets in Resources */,
 				1B3B28D01A14025000916BF5 /* CalendarDayCell.xib in Resources */,
@@ -285,6 +292,7 @@
 				1B87BF0F1A12C28F0018D8E6 /* ViewController.swift in Sources */,
 				1B87BF0A1A12C28F0018D8E6 /* AppDelegate.swift in Sources */,
 				1B3B28D11A14025000916BF5 /* CalendarMonthHeaderCell.swift in Sources */,
+				1B3B28D81A140FAB00916BF5 /* CalendarMonthCell.swift in Sources */,
 				1B3B28CF1A14025000916BF5 /* CalendarDayCell.swift in Sources */,
 				1B87BF0D1A12C28F0018D8E6 /* CalendarDatePicker.xcdatamodeld in Sources */,
 				1BCD387B1A12C9FF00358D3A /* CalendarConstants.swift in Sources */,
