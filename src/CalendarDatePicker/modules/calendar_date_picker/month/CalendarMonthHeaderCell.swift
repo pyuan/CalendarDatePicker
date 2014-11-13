@@ -34,13 +34,17 @@ class CalendarMonthHeaderCell:UIView
     //set the label based on the provided date
     func setMonth(date:NSDate)
     {
-        var firstDayOfMonth:NSDate = CalendarUtils.getFirstDayOfMonth(date)
+        let firstDayOfMonth:NSDate = CalendarUtils.getFirstDayOfMonth(date)
+        let today:NSDate = NSDate()
         
         //set text of label
-        var formatter:NSDateFormatter = NSDateFormatter()
+        let formatter:NSDateFormatter = NSDateFormatter()
         formatter.dateFormat = "MMM"
         let month:String = formatter.stringFromDate(firstDayOfMonth)
+        let currentMonth:String = formatter.stringFromDate(today)
+        
         self.label?.text = month.uppercaseString
+        self.label?.textColor = month == currentMonth ? CalendarConstants.COLOR_RED : CalendarConstants.COLOR_BLACK
         self.label?.sizeToFit()
         
         //position label

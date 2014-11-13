@@ -9,14 +9,15 @@
 import Foundation
 import UIKit
 
-class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDelegate
+class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDelegate, CalendarWeekCellDelegate
 {
     
     class var CELL_REUSE_ID : String { return "MonthCell" }
+    class var NUM_MONTHS_IN_YEARS : Int { return 12 }
     
     @IBOutlet var tableView:UITableView?
     
-    private var date:NSDate = NSDate()
+    private var baseDate:NSDate = NSDate()
     private var monthHeader:CalendarMonthHeaderCell?
     
     override func awakeFromNib()
@@ -38,8 +39,8 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     }
     
     //set the date for the month
-    func setDate(date:NSDate) {
-        self.date = date
+    func setDate(baseDate:NSDate) {
+        self.baseDate = baseDate
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -51,7 +52,7 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     }
     
     private func getNumberOfRows(section:Int) -> CGFloat {
-        let numWeeks:CGFloat = CGFloat(CalendarUtils.getNumberOfWeeksForMonth(self.date))
+        let numWeeks:CGFloat = CGFloat(CalendarUtils.getNumberOfWeeksForMonth(self.baseDate))
         return numWeeks
     }
     
@@ -64,12 +65,35 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         var cell:CalendarWeekCell = tableView.dequeueReusableCellWithIdentifier(CalendarWeekCell.CELL_REUSE_ID) as CalendarWeekCell
-        cell.update(self.date, weekNum: indexPath.row)
+        cell.delegate = self
+        cell.update(self.baseDate, weekNum: indexPath.row)
+        println(self.baseDate)
         
         //for some reason header can only position correctly here
-        self.monthHeader?.setMonth(self.date)
+        self.monthHeader?.setMonth(self.baseDate)
         
         return cell
+    }
+    
+    //deselect all days in all weeks
+    func deselectAllWeeks() {
+        var cells:[CalendarWeekCell] = self.tableView?.visibleCells() as [CalendarWeekCell]
+        for cell in cells {
+            cell.deselectAllDays()
+        }
+    }
+    
+    //select a day
+    func selectDayInMonth(day:NSDate) {
+        var cells:[CalendarWeekCell] = self.tableView?.visibleCells() as [CalendarWeekCell]
+        for cell in cells {
+            cell.selectDayInWeek(day)
+        }
+    }
+    
+    /**** Delegate methods ****/
+    func calendarWeekOnDaySelected(day: NSDate) {
+        println(day)
     }
     
 }

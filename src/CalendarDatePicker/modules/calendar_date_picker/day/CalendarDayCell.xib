@@ -11,8 +11,8 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7lO-bf-9LJ">
-                    <rect key="frame" x="295" y="7" width="10" height="20.5"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <rect key="frame" x="294.5" y="10" width="11" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -20,7 +20,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="7lO-bf-9LJ" secondAttribute="centerX" id="AWf-D1-Yom"/>
-                <constraint firstItem="7lO-bf-9LJ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="7" id="fTn-Mr-Yhc"/>
+                <constraint firstItem="7lO-bf-9LJ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="fTn-Mr-Yhc"/>
             </constraints>
             <connections>
                 <outlet property="label" destination="7lO-bf-9LJ" id="mSq-60-7IG"/>

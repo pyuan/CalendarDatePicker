@@ -88,4 +88,76 @@ class CalendarUtils
         return numCells
     }
     
+    //compare if two NSDate objects are in the same day
+    class func sameDay(date1:NSDate, date2:NSDate) -> Bool
+    {
+        let calendar:NSCalendar = NSCalendar.currentCalendar()
+        let unit:NSCalendarUnit = NSCalendarUnit.YearCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.DayCalendarUnit
+        let comps1:NSDateComponents = calendar.components(unit, fromDate: date1)
+        let comps2:NSDateComponents = calendar.components(unit, fromDate: date2)
+        let sameDay:Bool = comps1.year == comps2.year && comps1.month == comps2.month && comps1.day == comps2.day
+        return sameDay
+    }
+    
+    //get a NSDate by specifying the year, month and day
+    class func createDate(year:Int, month:Int, day:Int) -> NSDate
+    {
+        let calendar:NSCalendar = NSCalendar.currentCalendar()
+        let unit:NSCalendarUnit = NSCalendarUnit.YearCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.DayCalendarUnit
+        let comps:NSDateComponents = NSDateComponents()
+        comps.year = year
+        comps.month = month
+        comps.day = day
+        let date:NSDate = calendar.dateFromComponents(comps)!
+        return date
+    }
+    
+    //get the year from a NSDate
+    class func getYearFromDate(date:NSDate) -> Int
+    {
+        let calendar:NSCalendar = NSCalendar.currentCalendar()
+        let unit:NSCalendarUnit = NSCalendarUnit.YearCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.DayCalendarUnit
+        let comps:NSDateComponents = calendar.components(unit, fromDate: date)
+        return comps.year
+    }
+    
+    //get the month from a NSDate
+    class func getMonthFromDate(date:NSDate) -> Int
+    {
+        let calendar:NSCalendar = NSCalendar.currentCalendar()
+        let unit:NSCalendarUnit = NSCalendarUnit.MonthCalendarUnit
+        let comps:NSDateComponents = calendar.components(unit, fromDate: date)
+        return comps.month
+    }
+    
+    //get the day from a NSDate
+    class func getDayFromDate(date:NSDate) -> Int
+    {
+        let calendar:NSCalendar = NSCalendar.currentCalendar()
+        let unit:NSCalendarUnit = NSCalendarUnit.DayCalendarUnit
+        let comps:NSDateComponents = calendar.components(unit, fromDate: date)
+        return comps.day
+    }
+    
+    /*
+    //get a date that is a month before the provided date
+    class func getLastMonthForDate(date:NSDate) -> NSDate
+    {
+        let calendar:NSCalendar = NSCalendar.currentCalendar()
+        let unit:NSCalendarUnit = NSCalendarUnit.YearCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.DayCalendarUnit
+        let comps:NSDateComponents = calendar.components(unit, fromDate: date)
+
+        if comps.month - 1 < 0 {
+            comps.month = 12
+            comps.year = comps.year - 1
+        }
+        else {
+            comps.month = comps.month - 1
+        }
+        
+        let lastMonthDate:NSDate = calendar.dateFromComponents(comps)!
+        return lastMonthDate
+    }
+    */
+    
 }

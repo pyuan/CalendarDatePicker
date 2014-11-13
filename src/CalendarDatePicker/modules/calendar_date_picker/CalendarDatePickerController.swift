@@ -25,33 +25,41 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         self.tableView?.separatorStyle = UITableViewCellSeparatorStyle.None
         self.tableView?.showsHorizontalScrollIndicator = false
         self.tableView?.showsVerticalScrollIndicator = false
-        
-        var today:NSDate = NSDate()
-        var calendar:NSCalendar = NSCalendar.currentCalendar()
-        var days:NSRange = calendar.rangeOfUnit(NSCalendarUnit.CalendarUnitDay, inUnit: NSCalendarUnit.MonthCalendarUnit, forDate: today)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Int(self.getNumberOfRows(section))
-    }
-    
-    private func getNumberOfRows(section:Int) -> CGFloat {
-        return 12
+        return CalendarMonthCell.NUM_MONTHS_IN_YEARS
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        return tableView.frame.height
+        return 44//tableView.frame.height
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         var cell:CalendarMonthCell = tableView.dequeueReusableCellWithIdentifier(CalendarMonthCell.CELL_REUSE_ID) as CalendarMonthCell
-        cell.setDate(NSDate())
+        
+        let today:NSDate = NSDate()
+        let totalNumYears:Int = Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue)
+        var year:Int = CalendarUtils.getYearFromDate(today)
+        if indexPath.section >= indexPath.section/2 {
+            year += indexPath.section - Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue/2)
+        } else {
+            year -= Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue/2) - indexPath.section
+        }
+        
+        var month:Int = indexPath.row + 1
+        var day:Int = 1
+
+        var date:NSDate = CalendarUtils.createDate(year, month: month, day: day)
+        println(date)
+        cell.setDate(date)
+        
         return cell
     }
     

@@ -16,6 +16,7 @@ class CalendarConstants
     {
         case MONTH_START_ROW_HEIGHT = 35
         case WEEK_ROW_HEIGHT = 71
+        case TOTAL_NUM_YEARS = 100
     }
     
     class var COLOR_RED:UIColor { return UIColor(red: 239/255, green: 72/255, blue: 50/255, alpha: 1.0) }
