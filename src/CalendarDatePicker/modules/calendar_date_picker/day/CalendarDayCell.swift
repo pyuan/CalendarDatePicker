@@ -16,9 +16,25 @@ class CalendarDayCell:UICollectionViewCell
     
     @IBOutlet var label:UILabel?
     
+    private var date:NSDate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = UIColor.clearColor()
+    }
+    
+    //update text and style
+    func update(date:NSDate)
+    {
+        self.date = date
+        
+        //populate label
+        var dayOfMonth:Int = CalendarUtils.getDayOfMonth(date)
+        self.label?.text = dayOfMonth.description
+        
+        //set color
+        var dayOfWeek:Int = CalendarUtils.getDayOfWeek(date)
+        self.label?.textColor = dayOfWeek == 6 || dayOfWeek == 7 ? CalendarConstants.COLOR_GREY : CalendarConstants.COLOR_BLACK
     }
     
 }

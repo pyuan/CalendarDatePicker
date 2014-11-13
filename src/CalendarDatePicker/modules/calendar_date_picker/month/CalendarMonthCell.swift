@@ -16,6 +16,9 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     
     @IBOutlet var tableView:UITableView?
     
+    private var date:NSDate = NSDate()
+    private var monthHeader:CalendarMonthHeaderCell?
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()
@@ -30,8 +33,13 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
         
         //set month header
         let frame:CGRect = CGRectMake(0, 0, self.frame.width, CGFloat(CalendarConstants.CALENDAR_SIZE.MONTH_START_ROW_HEIGHT.rawValue))
-        var monthHeader:CalendarMonthHeaderCell = CalendarMonthHeaderCell(frame: frame)
-        self.tableView?.tableHeaderView = monthHeader
+        self.monthHeader = CalendarMonthHeaderCell(frame: frame)
+        self.tableView?.tableHeaderView = self.monthHeader
+    }
+    
+    //set the date for the month
+    func setDate(date:NSDate) {
+        self.date = date
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -43,18 +51,24 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     }
     
     private func getNumberOfRows(section:Int) -> CGFloat {
-        return 6
+        let numWeeks:CGFloat = CalendarUtils.getNumberOfWeeksForMonth(self.date)
+        return numWeeks
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        let h:CGFloat = (tableView.frame.height - CGFloat(CalendarConstants.CALENDAR_SIZE.MONTH_START_ROW_HEIGHT.rawValue)) / self.getNumberOfRows(indexPath.section)
+        let h:CGFloat = CGFloat(CalendarConstants.CALENDAR_SIZE.WEEK_ROW_HEIGHT.rawValue)
         return h
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         var cell:CalendarWeekCell = tableView.dequeueReusableCellWithIdentifier(CalendarWeekCell.CELL_REUSE_ID) as CalendarWeekCell
+        cell.update(self.date, weekNum: indexPath.row)
+        
+        //for some reason header can only position correctly here
+        self.monthHeader?.setMonth(self.date)
+        
         return cell
     }
     

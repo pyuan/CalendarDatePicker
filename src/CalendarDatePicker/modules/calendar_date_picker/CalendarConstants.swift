@@ -15,6 +15,7 @@ class CalendarConstants
     enum CALENDAR_SIZE:Float
     {
         case MONTH_START_ROW_HEIGHT = 35
+        case WEEK_ROW_HEIGHT = 71
     }
     
     class var COLOR_RED:UIColor { return UIColor(red: 239/255, green: 72/255, blue: 50/255, alpha: 1.0) }

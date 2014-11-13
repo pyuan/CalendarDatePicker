@@ -17,6 +17,10 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
     
     @IBOutlet var collectionView:UICollectionView?
     
+    private var topBorder:CALayer?
+    private var date:NSDate = NSDate()
+    private var weekNum:Int = 0
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()
@@ -29,10 +33,24 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         self.collectionView?.scrollEnabled = false
         
         //draw top border
-        var border:CALayer = CALayer()
-        border.backgroundColor = CalendarConstants.COLOR_GREY.CGColor
-        border.frame = CGRectMake(0, 0, self.frame.width, 1)
-        self.layer.addSublayer(border)
+        self.topBorder = CALayer()
+        self.topBorder!.backgroundColor = CalendarConstants.COLOR_GREY.CGColor
+        self.updateTopBorder(0, offsetDaysRight: 0)
+        self.layer.addSublayer(self.topBorder!)
+    }
+    
+    func update(date:NSDate, weekNum:Int) {
+        self.date = date
+        self.weekNum = weekNum
+    }
+    
+    //draw the border starting from the specified offset days
+    private func updateTopBorder(offsetDaysLeft:Int, offsetDaysRight:Int)
+    {
+        let dayWidth:CGFloat = self.frame.width / CalendarWeekCell.NUM_DAYS_IN_WEEK
+        let x:CGFloat = CGFloat(offsetDaysLeft) * dayWidth
+        let w:CGFloat = self.frame.width - x - (CGFloat(offsetDaysRight) * dayWidth)
+        self.topBorder!.frame = CGRectMake(x, 0, w, 1)
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -61,8 +79,36 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         return CGSizeMake(w, h)
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
+    {
         var cell:CalendarDayCell = collectionView.dequeueReusableCellWithReuseIdentifier(CalendarDayCell.CELL_REUSE_ID, forIndexPath: indexPath) as CalendarDayCell
+        
+        //get current day for cell
+        /*
+        let weekday:Int = indexPath.row
+        let numDays = self.weekNum *
+        let time:NSTimeInterval = 60 * 60 * 24 * numDays
+        let day:NSDate = self.date.dateByAddingTimeInterval(time)
+        cell.update(day)
+        */
+        
+        //update top border for first and last weeks
+        let numTotalWeeks:Int = Int(CalendarUtils.getNumberOfWeeksForMonth(self.date))
+        if self.weekNum == 0
+        {
+            let firstDay:NSDate = CalendarUtils.getFirstDayOfMonth(self.date)
+            let firstDayWeekDay:Int = CalendarUtils.getDayOfWeek(firstDay)
+            let offset:Int = firstDayWeekDay - 1
+            self.updateTopBorder(offset, offsetDaysRight: 0)
+        }
+        else if self.weekNum == numTotalWeeks - 1
+        {
+            let lastDay:NSDate = CalendarUtils.getLastDayOfMonth(self.date)
+            let lastDayWeekDay:Int = CalendarUtils.getDayOfWeek(lastDay)
+            let offset:Int = Int(CalendarWeekCell.NUM_DAYS_IN_WEEK) - lastDayWeekDay
+            self.updateTopBorder(0, offsetDaysRight: offset)
+        }
+        
         return cell
     }
     
