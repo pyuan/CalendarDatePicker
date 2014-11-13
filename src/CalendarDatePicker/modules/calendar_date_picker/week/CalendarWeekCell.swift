@@ -34,7 +34,7 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         
         //draw top border
         self.topBorder = CALayer()
-        self.topBorder!.backgroundColor = CalendarConstants.COLOR_GREY.CGColor
+        self.topBorder!.backgroundColor = CalendarConstants.COLOR_LIGHT_GREY.CGColor
         self.updateTopBorder(0, offsetDaysRight: 0)
         self.layer.addSublayer(self.topBorder!)
     }
@@ -84,24 +84,23 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         var cell:CalendarDayCell = collectionView.dequeueReusableCellWithReuseIdentifier(CalendarDayCell.CELL_REUSE_ID, forIndexPath: indexPath) as CalendarDayCell
         
         //get current day for cell
-        /*
-        let weekday:Int = indexPath.row
-        let numDays = self.weekNum *
-        let time:NSTimeInterval = 60 * 60 * 24 * numDays
-        let day:NSDate = self.date.dateByAddingTimeInterval(time)
-        cell.update(day)
-        */
+        let numCells:Int = CalendarUtils.getNumCellsForMonth(self.date)
+        let numDaysInMonth:Int = CalendarUtils.getNumberOfDaysForMonth(self.date)
+        let numWeeksInMonth:Int = CalendarUtils.getNumberOfWeeksForMonth(self.date)
+        let cellIndex:Int = self.weekNum * Int(CalendarWeekCell.NUM_DAYS_IN_WEEK) + indexPath.row
+        let firstDay:NSDate = CalendarUtils.getFirstDayOfMonth(self.date)
+        let firstDayWeekDay:Int = CalendarUtils.getDayOfWeek(firstDay)
+        let numDaysFromFirstDay:Int = cellIndex - firstDayWeekDay + 1
+        let cellDate:NSDate? = numDaysFromFirstDay < 0 || numDaysFromFirstDay >= numDaysInMonth ? nil : CalendarUtils.getDateRelativeToDate(firstDay, numDays: numDaysFromFirstDay)
+        cell.update(cellDate)
         
         //update top border for first and last weeks
-        let numTotalWeeks:Int = Int(CalendarUtils.getNumberOfWeeksForMonth(self.date))
         if self.weekNum == 0
         {
-            let firstDay:NSDate = CalendarUtils.getFirstDayOfMonth(self.date)
-            let firstDayWeekDay:Int = CalendarUtils.getDayOfWeek(firstDay)
             let offset:Int = firstDayWeekDay - 1
             self.updateTopBorder(offset, offsetDaysRight: 0)
         }
-        else if self.weekNum == numTotalWeeks - 1
+        else if self.weekNum == numWeeksInMonth - 1
         {
             let lastDay:NSDate = CalendarUtils.getLastDayOfMonth(self.date)
             let lastDayWeekDay:Int = CalendarUtils.getDayOfWeek(lastDay)

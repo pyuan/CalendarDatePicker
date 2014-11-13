@@ -51,7 +51,7 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     }
     
     private func getNumberOfRows(section:Int) -> CGFloat {
-        let numWeeks:CGFloat = CalendarUtils.getNumberOfWeeksForMonth(self.date)
+        let numWeeks:CGFloat = CGFloat(CalendarUtils.getNumberOfWeeksForMonth(self.date))
         return numWeeks
     }
     

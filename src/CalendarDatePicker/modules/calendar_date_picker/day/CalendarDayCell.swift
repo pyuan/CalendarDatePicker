@@ -24,17 +24,21 @@ class CalendarDayCell:UICollectionViewCell
     }
     
     //update text and style
-    func update(date:NSDate)
+    func update(date:NSDate?)
     {
         self.date = date
+        self.label?.hidden = self.date == nil
         
-        //populate label
-        var dayOfMonth:Int = CalendarUtils.getDayOfMonth(date)
-        self.label?.text = dayOfMonth.description
-        
-        //set color
-        var dayOfWeek:Int = CalendarUtils.getDayOfWeek(date)
-        self.label?.textColor = dayOfWeek == 6 || dayOfWeek == 7 ? CalendarConstants.COLOR_GREY : CalendarConstants.COLOR_BLACK
+        if date != nil
+        {
+            //populate label
+            var dayOfMonth:Int = CalendarUtils.getDayOfMonth(date!)
+            self.label?.text = dayOfMonth.description
+            
+            //set color for week days vs weekend days
+            var dayOfWeek:Int = CalendarUtils.getDayOfWeek(date!)
+            self.label?.textColor = dayOfWeek == 1 || dayOfWeek == 7 ? CalendarConstants.COLOR_GREY : CalendarConstants.COLOR_BLACK
+        }
     }
     
 }
