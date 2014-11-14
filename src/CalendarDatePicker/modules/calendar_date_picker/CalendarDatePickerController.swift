@@ -17,12 +17,17 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
 {
 
     @IBOutlet var tableView:UITableView?
+    @IBOutlet var todayBtn:UIBarButtonItem?
+    @IBOutlet var selectedBtn:UIBarButtonItem?
     
     var delegate:CalendarDatePickerControllerDelegate?
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        self.todayBtn?.tintColor = CalendarConstants.COLOR_RED
+        self.selectedBtn?.tintColor = CalendarConstants.COLOR_BLACK
         
         //register month cell nib
         let monthNib:UINib = UINib(nibName: "CalendarMonthCell", bundle: nil)
@@ -31,6 +36,39 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         self.tableView?.separatorStyle = UITableViewCellSeparatorStyle.None
         self.tableView?.showsHorizontalScrollIndicator = false
         self.tableView?.showsVerticalScrollIndicator = false
+        
+        //scroll to default date
+        let today:NSDate = NSDate()
+        let selectedDate:NSDate? = CalendarModel.sharedInstance.selectedDate
+        let showDate:NSDate = selectedDate == nil ? today : selectedDate!
+        self.goTo(showDate, animated: false)
+    }
+    
+    //scroll to show the month containing today
+    @IBAction func goToToday(sender:AnyObject?) {
+        let today:NSDate = NSDate()
+        self.goTo(today, animated: true)
+    }
+    
+    //scroll to show the selected month, to go today if no selected date
+    @IBAction func goToSelectedDay(sender:AnyObject?) {
+        let selectedDate:NSDate? = CalendarModel.sharedInstance.selectedDate
+        selectedDate != nil ? self.goTo(selectedDate!, animated: true) : self.goToToday(nil)
+    }
+    
+    //set the default selected date
+    func setDefaultSelectedDate(date:NSDate?) {
+        CalendarModel.sharedInstance.selectedDate = date
+    }
+    
+    //scroll to show entire specified month
+    private func goTo(date:NSDate, animated:Bool)
+    {
+        let year:Int = CalendarUtils.getYearFromDate(date)
+        let month:Int = CalendarUtils.getMonthFromDate(date)
+        let date:NSDate = CalendarUtils.createDate(year, month: month, day: 1)
+        let indexPath:NSIndexPath = self.getIndexPathForDate(date)
+        self.tableView?.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: animated)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -64,20 +102,47 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
     //get the date associated with an NSIndexPath
     private func getDateForIndexPath(indexPath:NSIndexPath) -> NSDate
     {
-        let today:NSDate = NSDate()
-        let totalNumYears:Int = Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue)
-        var year:Int = CalendarUtils.getYearFromDate(today)
-        if indexPath.section >= indexPath.section/2 {
-            year += indexPath.section - Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue/2)
-        } else {
-            year -= Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue/2) - indexPath.section
-        }
-        
+        let year:Int = self.getYearFromIndexPath(indexPath)
         let month:Int = indexPath.row + 1
         let day:Int = 1
         
         let date:NSDate = CalendarUtils.createDate(year, month: month, day: day)
         return date
+    }
+    
+    //get the NSIndexPath of a date
+    private func getIndexPathForDate(date:NSDate) -> NSIndexPath
+    {
+        let year:Int = CalendarUtils.getYearFromDate(date)
+        let row:Int = CalendarUtils.getMonthFromDate(date) - 1 //because month starts from 1
+        let section:Int = self.getSectionFromYear(year)
+        let indexPath:NSIndexPath = NSIndexPath(forRow: row, inSection: section)
+        return indexPath
+    }
+    
+    //get the year being viewed based on the NSIndexPath
+    private func getYearFromIndexPath(indexPath:NSIndexPath) -> Int
+    {
+        let today:NSDate = NSDate()
+        let totalNumYears:Int = Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue)
+        var year:Int = CalendarUtils.getYearFromDate(today)
+        if indexPath.section >= indexPath.section/2 {
+            year += indexPath.section - Int(floor(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue/2))
+        } else {
+            year -= Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue/2) - indexPath.section
+        }
+        return year
+    }
+    
+    //get the section for a year
+    private func getSectionFromYear(year:Int) -> Int
+    {
+        let today:NSDate = NSDate()
+        let currentYear:Int = CalendarUtils.getYearFromDate(today)
+        let diff:Int = currentYear - year
+        let totalNumYears:Int = Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue)
+        let section:Int = Int(floor(Double(totalNumYears)/2)) - diff
+        return section
     }
     
     /**** delegate methods ****/

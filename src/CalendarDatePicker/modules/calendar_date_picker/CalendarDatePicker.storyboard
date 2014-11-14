@@ -21,10 +21,22 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="eoL-yN-vnf"/>
                                 </constraints>
-                                <items/>
+                                <items>
+                                    <barButtonItem title="Today" id="dgf-dh-2Ub">
+                                        <connections>
+                                            <action selector="goToToday:" destination="bSn-t7-KOc" id="tzk-Hb-zHE"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="AD4-uc-kT4"/>
+                                    <barButtonItem title="Selected" id="ejq-F9-u7U">
+                                        <connections>
+                                            <action selector="goToSelectedDay:" destination="bSn-t7-KOc" id="ggf-6n-NGX"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eTz-Qe-Ull">
-                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="491"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="bSn-t7-KOc" id="JqC-hU-7Gz"/>
@@ -35,7 +47,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="eTz-Qe-Ull" firstAttribute="leading" secondItem="Xqw-M1-VYE" secondAttribute="leading" id="2G4-I9-VDm"/>
-                            <constraint firstItem="G0t-Ak-Gmm" firstAttribute="top" secondItem="eTz-Qe-Ull" secondAttribute="bottom" id="Lxd-Ea-BId"/>
+                            <constraint firstItem="G0t-Ak-Gmm" firstAttribute="top" secondItem="eTz-Qe-Ull" secondAttribute="bottom" constant="1" id="Lxd-Ea-BId"/>
                             <constraint firstItem="G0t-Ak-Gmm" firstAttribute="leading" secondItem="Xqw-M1-VYE" secondAttribute="leading" id="TWu-c6-Vb2"/>
                             <constraint firstAttribute="trailing" secondItem="eTz-Qe-Ull" secondAttribute="trailing" id="X7j-Y7-ywj"/>
                             <constraint firstItem="X1h-hK-vto" firstAttribute="top" secondItem="G0t-Ak-Gmm" secondAttribute="bottom" id="XUi-b9-Z7l"/>
@@ -45,7 +57,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="C0S-Fk-Uhx"/>
                     <connections>
+                        <outlet property="selectedBtn" destination="ejq-F9-u7U" id="3Dv-Ap-Ly2"/>
                         <outlet property="tableView" destination="eTz-Qe-Ull" id="MGF-YI-HgP"/>
+                        <outlet property="todayBtn" destination="dgf-dh-2Ub" id="Ra0-BI-mPl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wiB-bX-C0z" userLabel="First Responder" sceneMemberID="firstResponder"/>

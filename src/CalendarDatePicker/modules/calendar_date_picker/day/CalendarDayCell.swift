@@ -59,6 +59,13 @@ class CalendarDayCell:UICollectionViewCell
     //draw background for state
     private func setBackgroundView(selected:Bool)
     {
+        //always remove background layer before redraw
+        if self.backgroundLayer != nil {
+            self.backgroundLayer!.removeFromSuperlayer()
+            self.backgroundLayer = nil
+        }
+        
+        //add background layer
         if self.backgroundLayer == nil
         {
             let margin:CGFloat = 5
@@ -71,9 +78,9 @@ class CalendarDayCell:UICollectionViewCell
         }
         
         let isToday:Bool = self.cellIsToday()
-        self.backgroundLayer?.hidden = !self.selected
-        if isToday {
-            self.backgroundLayer?.hidden = false //always show if today
+        self.backgroundLayer?.hidden = true
+        if isToday || self.selected {
+            self.backgroundLayer?.hidden = false //always show if today and selected
         }
         
         self.backgroundLayer?.backgroundColor = UIColor.clearColor().CGColor
