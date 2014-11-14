@@ -134,12 +134,24 @@ class CalendarDayCell:UICollectionViewCell
         return isToday
     }
     
-    //show animation
+    //show pulsing animation
     func animate()
     {
         if self.background != nil
         {
-            println("test")
+            UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: {() -> Void in
+                
+                self.background!.transform = CGAffineTransformMakeScale(1.2, 1.2);
+                
+                }, completion: {(finished:Bool) -> Void in
+            
+                    UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: {() -> Void in
+                        
+                        self.background!.transform = CGAffineTransformIdentity
+                        
+                        }, completion: {(finished:Bool) -> Void in })
+                    
+                })
         }
     }
     
