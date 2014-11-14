@@ -30,6 +30,14 @@ class CalendarDayCell:UICollectionViewCell
         self.date = date
         self.label?.hidden = self.date == nil
         
+        //render if selected
+        let selectedDate:NSDate? = CalendarModel.sharedInstance.selectedDate
+        if date != nil && selectedDate != nil {
+            self.selected = CalendarUtils.sameDay(date!, date2: selectedDate!)
+        } else {
+            self.selected = false
+        }
+        
         if date != nil
         {
             //populate label
@@ -37,7 +45,7 @@ class CalendarDayCell:UICollectionViewCell
             self.label?.text = dayOfMonth.description
         }
         
-        self.setLabel(self.selected)
+        self.updateSelected(self.selected)
     }
     
     //update view based on selected
@@ -62,8 +70,26 @@ class CalendarDayCell:UICollectionViewCell
             self.layer.insertSublayer(self.backgroundLayer, atIndex: 0)
         }
         
-        if self.date != nil {
-            self.backgroundLayer?.backgroundColor = selected ? CalendarConstants.COLOR_RED.CGColor : UIColor.clearColor().CGColor
+        let isToday:Bool = self.cellIsToday()
+        self.backgroundLayer?.hidden = !self.selected
+        if isToday {
+            self.backgroundLayer?.hidden = false //always show if today
+        }
+        
+        self.backgroundLayer?.backgroundColor = UIColor.clearColor().CGColor
+        if self.date != nil
+        {
+            var bgColor:CGColorRef = UIColor.clearColor().CGColor
+            if selected {
+                bgColor = CalendarConstants.COLOR_BLACK.CGColor
+            }
+            if isToday
+            {
+                let highlightColor:UIColor = CalendarConstants.COLOR_RED.colorWithAlphaComponent(0.5)
+                bgColor = selected ? CalendarConstants.COLOR_RED.CGColor : highlightColor.CGColor
+            }
+            
+            self.backgroundLayer?.backgroundColor = bgColor
         }
     }
     
@@ -81,13 +107,26 @@ class CalendarDayCell:UICollectionViewCell
             color = dayOfWeek == 1 || dayOfWeek == 7 ? CalendarConstants.COLOR_GREY : CalendarConstants.COLOR_BLACK
         }
         
-        if selected {
+        let isToday:Bool = self.cellIsToday()
+        if selected || isToday {
             font = UIFont.boldSystemFontOfSize(fontSize)
             color = UIColor.whiteColor()
         }
         
         self.label?.textColor = color
         self.label?.font = font
+    }
+    
+    //get if this cell is for today
+    private func cellIsToday() -> Bool
+    {
+        var isToday:Bool = false
+        if self.date != nil
+        {
+            let today:NSDate = NSDate()
+            isToday = CalendarUtils.sameDay(self.date!, date2: today)
+        }
+        return isToday
     }
     
     //getter for the date

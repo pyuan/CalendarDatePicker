@@ -139,25 +139,4 @@ class CalendarUtils
         return comps.day
     }
     
-    /*
-    //get a date that is a month before the provided date
-    class func getLastMonthForDate(date:NSDate) -> NSDate
-    {
-        let calendar:NSCalendar = NSCalendar.currentCalendar()
-        let unit:NSCalendarUnit = NSCalendarUnit.YearCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.DayCalendarUnit
-        let comps:NSDateComponents = calendar.components(unit, fromDate: date)
-
-        if comps.month - 1 < 0 {
-            comps.month = 12
-            comps.year = comps.year - 1
-        }
-        else {
-            comps.month = comps.month - 1
-        }
-        
-        let lastMonthDate:NSDate = calendar.dateFromComponents(comps)!
-        return lastMonthDate
-    }
-    */
-    
 }

@@ -11,7 +11,7 @@ import Foundation
 class CalendarModel
 {
     
-    var selectedDate:NSDate = NSDate()
+    var selectedDate:NSDate?
     
     // get shared instance
     class var sharedInstance: CalendarModel {

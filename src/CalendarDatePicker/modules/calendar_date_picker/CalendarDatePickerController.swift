@@ -9,10 +9,16 @@
 import Foundation
 import UIKit
 
-class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITableViewDelegate
+protocol CalendarDatePickerControllerDelegate {
+    func calendarDatePickerOnDaySelected(day:NSDate)
+}
+
+class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITableViewDelegate, CalendarMonthCellDelegate
 {
 
     @IBOutlet var tableView:UITableView?
+    
+    var delegate:CalendarDatePickerControllerDelegate?
     
     override func viewDidLoad()
     {
@@ -35,15 +41,29 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         return CalendarMonthCell.NUM_MONTHS_IN_YEARS
     }
     
+    //set the height for each month, calculate based on the number of weeks for each month
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        return 44//tableView.frame.height
+        let date:NSDate = self.getDateForIndexPath(indexPath)
+        let numWeeks:Int = CalendarUtils.getNumberOfWeeksForMonth(date)
+        let h:CGFloat = CGFloat(CalendarConstants.CALENDAR_SIZE.MONTH_START_ROW_HEIGHT.rawValue) + CGFloat(numWeeks) * CGFloat(CalendarConstants.CALENDAR_SIZE.WEEK_ROW_HEIGHT.rawValue)
+        return h
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         var cell:CalendarMonthCell = tableView.dequeueReusableCellWithIdentifier(CalendarMonthCell.CELL_REUSE_ID) as CalendarMonthCell
         
+        cell.delegate = self
+        let date:NSDate = self.getDateForIndexPath(indexPath)
+        cell.setDate(date)
+        
+        return cell
+    }
+    
+    //get the date associated with an NSIndexPath
+    private func getDateForIndexPath(indexPath:NSIndexPath) -> NSDate
+    {
         let today:NSDate = NSDate()
         let totalNumYears:Int = Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue)
         var year:Int = CalendarUtils.getYearFromDate(today)
@@ -53,14 +73,18 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
             year -= Int(CalendarConstants.CALENDAR_SIZE.TOTAL_NUM_YEARS.rawValue/2) - indexPath.section
         }
         
-        var month:Int = indexPath.row + 1
-        var day:Int = 1
-
-        var date:NSDate = CalendarUtils.createDate(year, month: month, day: day)
-        println(date)
-        cell.setDate(date)
+        let month:Int = indexPath.row + 1
+        let day:Int = 1
         
-        return cell
+        let date:NSDate = CalendarUtils.createDate(year, month: month, day: day)
+        return date
+    }
+    
+    /**** delegate methods ****/
+    func calendarMonthOnDaySelected(day: NSDate) {
+        self.tableView?.reloadData()
+        self.delegate?.calendarDatePickerOnDaySelected(day)
+        println(day)
     }
     
 }

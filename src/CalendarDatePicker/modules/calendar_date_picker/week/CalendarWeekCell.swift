@@ -41,17 +41,41 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         //draw top border
         self.topBorder = CALayer()
         self.topBorder!.backgroundColor = CalendarConstants.COLOR_LIGHT_GREY.CGColor
-        self.updateTopBorder(0, offsetDaysRight: 0)
+        self.drawTopBorder(0, offsetDaysRight: 0)
         self.layer.addSublayer(self.topBorder!)
     }
     
     func update(baseDate:NSDate, weekNum:Int) {
         self.baseDate = baseDate
         self.weekNum = weekNum
+        self.collectionView?.reloadData()
+    }
+    
+    //update the border based on the week
+    private func updateTopBorder()
+    {
+        let numWeeksInMonth:Int = CalendarUtils.getNumberOfWeeksForMonth(self.baseDate)
+        var offsetDaysLeft:Int = 0
+        var offsetDaysRight:Int = 0
+        
+        if self.weekNum == 0
+        {
+            let firstDay:NSDate = CalendarUtils.getFirstDayOfMonth(self.baseDate)
+            let firstDayWeekDay:Int = CalendarUtils.getDayOfWeek(firstDay)
+            offsetDaysLeft = firstDayWeekDay - 1
+        }
+        else if self.weekNum == numWeeksInMonth - 1
+        {
+            let lastDay:NSDate = CalendarUtils.getLastDayOfMonth(self.baseDate)
+            let lastDayWeekDay:Int = CalendarUtils.getDayOfWeek(lastDay)
+            offsetDaysRight = Int(CalendarWeekCell.NUM_DAYS_IN_WEEK) - lastDayWeekDay
+        }
+        
+        self.drawTopBorder(offsetDaysLeft, offsetDaysRight: offsetDaysRight)
     }
     
     //draw the border starting from the specified offset days
-    private func updateTopBorder(offsetDaysLeft:Int, offsetDaysRight:Int)
+    private func drawTopBorder(offsetDaysLeft:Int, offsetDaysRight:Int)
     {
         let dayWidth:CGFloat = self.frame.width / CalendarWeekCell.NUM_DAYS_IN_WEEK
         let x:CGFloat = CGFloat(offsetDaysLeft) * dayWidth
@@ -104,30 +128,8 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         }
     }
     
-    //select a day cell if it matches with the provided date
-    func selectDayInWeek(date:NSDate)
-    {
-        let selectedDate:NSDate = CalendarModel.sharedInstance.selectedDate
-        let cells:[CalendarDayCell] = self.collectionView?.visibleCells() as [CalendarDayCell]
-        for i in 0..<cells.count
-        {
-            let cell:CalendarDayCell = cells[i]
-            let cellDate:NSDate? = cell.getDate()
-            if cellDate != nil
-            {
-                let sameDay:Bool = CalendarUtils.sameDay(cellDate!, date2: selectedDate)
-                if sameDay
-                {
-                    let indexPath:NSIndexPath = NSIndexPath(forRow: i, inSection: 0)
-                    self.collectionView?.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
-                    break
-                }
-            }
-        }
-    }
-    
     //deselect all days in the week
-    func deselectAllDays()
+    private func deselectAllDays()
     {
         var cells:[CalendarDayCell] = self.collectionView?.visibleCells() as [CalendarDayCell]
         for cell in cells {
@@ -144,21 +146,7 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         cell.update(cellDate)
         
         //update top border for first and last weeks
-        let numWeeksInMonth:Int = CalendarUtils.getNumberOfWeeksForMonth(self.baseDate)
-        if self.weekNum == 0
-        {
-            let firstDay:NSDate = CalendarUtils.getFirstDayOfMonth(self.baseDate)
-            let firstDayWeekDay:Int = CalendarUtils.getDayOfWeek(firstDay)
-            let offset:Int = firstDayWeekDay - 1
-            self.updateTopBorder(offset, offsetDaysRight: 0)
-        }
-        else if self.weekNum == numWeeksInMonth - 1
-        {
-            let lastDay:NSDate = CalendarUtils.getLastDayOfMonth(self.baseDate)
-            let lastDayWeekDay:Int = CalendarUtils.getDayOfWeek(lastDay)
-            let offset:Int = Int(CalendarWeekCell.NUM_DAYS_IN_WEEK) - lastDayWeekDay
-            self.updateTopBorder(0, offsetDaysRight: offset)
-        }
+        self.updateTopBorder()
         
         return cell
     }

@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol CalendarMonthCellDelegate {
+    func calendarMonthOnDaySelected(day:NSDate)
+}
+
 class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDelegate, CalendarWeekCellDelegate
 {
     
@@ -16,6 +20,8 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     class var NUM_MONTHS_IN_YEARS : Int { return 12 }
     
     @IBOutlet var tableView:UITableView?
+    
+    var delegate:CalendarMonthCellDelegate?
     
     private var baseDate:NSDate = NSDate()
     private var monthHeader:CalendarMonthHeaderCell?
@@ -41,6 +47,7 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     //set the date for the month
     func setDate(baseDate:NSDate) {
         self.baseDate = baseDate
+        self.tableView?.reloadData()
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -67,7 +74,6 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
         var cell:CalendarWeekCell = tableView.dequeueReusableCellWithIdentifier(CalendarWeekCell.CELL_REUSE_ID) as CalendarWeekCell
         cell.delegate = self
         cell.update(self.baseDate, weekNum: indexPath.row)
-        println(self.baseDate)
         
         //for some reason header can only position correctly here
         self.monthHeader?.setMonth(self.baseDate)
@@ -75,25 +81,9 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
         return cell
     }
     
-    //deselect all days in all weeks
-    func deselectAllWeeks() {
-        var cells:[CalendarWeekCell] = self.tableView?.visibleCells() as [CalendarWeekCell]
-        for cell in cells {
-            cell.deselectAllDays()
-        }
-    }
-    
-    //select a day
-    func selectDayInMonth(day:NSDate) {
-        var cells:[CalendarWeekCell] = self.tableView?.visibleCells() as [CalendarWeekCell]
-        for cell in cells {
-            cell.selectDayInWeek(day)
-        }
-    }
-    
     /**** Delegate methods ****/
     func calendarWeekOnDaySelected(day: NSDate) {
-        println(day)
+        self.delegate?.calendarMonthOnDaySelected(day)
     }
     
 }
