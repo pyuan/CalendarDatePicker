@@ -151,6 +151,15 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         return cell
     }
     
+    //animate the day for the week
+    func animateDayForWeek(date:NSDate)
+    {
+        let dayIndex:Int = CalendarUtils.getDayOfWeek(date) - 1 //day starts from 1
+        let indexPath:NSIndexPath = NSIndexPath(forRow: dayIndex, inSection: 0)
+        let cell:CalendarDayCell? = self.collectionView?.cellForItemAtIndexPath(indexPath) as? CalendarDayCell
+        cell?.animate()
+    }
+    
     //return date associated with a day cell by proiding a NSIndexPath
     private func getCellDate(indexPath:NSIndexPath) -> NSDate?
     {

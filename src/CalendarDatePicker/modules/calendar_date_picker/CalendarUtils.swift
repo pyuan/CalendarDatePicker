@@ -29,6 +29,25 @@ class CalendarUtils
         return numDays
     }
     
+    //return the index of day in month, counting empty cells
+    class func getIndexOfDayInMonth(date:NSDate) -> Int
+    {
+        let numCells:Int = self.getNumCellsForMonth(date)
+        let day:Int = self.getDayFromDate(date)
+        let numDays:Int = self.getNumberOfDaysForMonth(date)
+        let index:Int = numCells - numDays + day - 1
+        return index
+    }
+    
+    //return the index of week in month
+    class func getIndexOfWeekInMonth(date:NSDate) -> Int
+    {
+        let numDaysInWeek:Int = Int(CalendarWeekCell.NUM_DAYS_IN_WEEK)
+        let cellIndex:Int = self.getIndexOfDayInMonth(date)
+        let index:Int = Int(floor(Double(cellIndex) / Double(numDaysInWeek)))
+        return index
+    }
+    
     //return the first day of the month of the provided date
     class func getFirstDayOfMonth(date:NSDate) -> NSDate
     {
@@ -73,7 +92,8 @@ class CalendarUtils
     
     //return the NSDate object of a day relative to date
     class func getDateRelativeToDate(date:NSDate, numDays:Int) -> NSDate {
-        let time:NSTimeInterval = 60 * 60 * 24 * Double(numDays)
+        var time:NSTimeInterval = 60 * 60 * 24 * Double(numDays)
+        time += 60 * 60 * 5 //offset to make date comparison work
         let day:NSDate = date.dateByAddingTimeInterval(time)
         return day
     }

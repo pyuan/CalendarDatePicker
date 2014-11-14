@@ -17,7 +17,7 @@ class CalendarDayCell:UICollectionViewCell
     @IBOutlet var label:UILabel?
     
     private var date:NSDate?
-    private var backgroundLayer:CALayer?
+    private var background:UIView?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -60,43 +60,41 @@ class CalendarDayCell:UICollectionViewCell
     private func setBackgroundView(selected:Bool)
     {
         //always remove background layer before redraw
-        if self.backgroundLayer != nil {
-            self.backgroundLayer!.removeFromSuperlayer()
-            self.backgroundLayer = nil
-        }
-        
-        //add background layer
-        if self.backgroundLayer == nil
-        {
-            let margin:CGFloat = 5
-            let newSize:CGFloat = self.frame.width - margin * 2
-            let frame:CGRect = CGRectMake(margin, margin, newSize, newSize)
-            self.backgroundLayer = CALayer()
-            self.backgroundLayer!.frame = frame
-            self.backgroundLayer!.cornerRadius = newSize / 2
-            self.layer.insertSublayer(self.backgroundLayer, atIndex: 0)
+        if self.background != nil {
+            self.background!.removeFromSuperview()
+            self.background = nil
         }
         
         let isToday:Bool = self.cellIsToday()
-        self.backgroundLayer?.hidden = true
-        if isToday || self.selected {
-            self.backgroundLayer?.hidden = false //always show if today and selected
+        if isToday || self.selected
+        {
+            //always show if today and selected, add background layer
+            if self.background == nil
+            {
+                let margin:CGFloat = 5
+                let newSize:CGFloat = self.frame.width - margin * 2
+                let frame:CGRect = CGRectMake(margin, margin, newSize, newSize)
+                self.background = UIView()
+                self.background!.frame = frame
+                self.background!.layer.cornerRadius = newSize / 2
+                self.insertSubview(self.background!, atIndex: 0)
+            }
         }
         
-        self.backgroundLayer?.backgroundColor = UIColor.clearColor().CGColor
+        self.background?.backgroundColor = UIColor.clearColor()
         if self.date != nil
         {
-            var bgColor:CGColorRef = UIColor.clearColor().CGColor
+            var bgColor:UIColor = UIColor.clearColor()
             if selected {
-                bgColor = CalendarConstants.COLOR_BLACK.CGColor
+                bgColor = CalendarConstants.COLOR_BLACK
             }
             if isToday
             {
                 let highlightColor:UIColor = CalendarConstants.COLOR_RED.colorWithAlphaComponent(0.5)
-                bgColor = selected ? CalendarConstants.COLOR_RED.CGColor : highlightColor.CGColor
+                bgColor = selected ? CalendarConstants.COLOR_RED : highlightColor
             }
             
-            self.backgroundLayer?.backgroundColor = bgColor
+            self.background?.backgroundColor = bgColor
         }
     }
     
@@ -134,6 +132,15 @@ class CalendarDayCell:UICollectionViewCell
             isToday = CalendarUtils.sameDay(self.date!, date2: today)
         }
         return isToday
+    }
+    
+    //show animation
+    func animate()
+    {
+        if self.background != nil
+        {
+            println("test")
+        }
     }
     
     //getter for the date

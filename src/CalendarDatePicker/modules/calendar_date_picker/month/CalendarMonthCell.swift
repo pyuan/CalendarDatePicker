@@ -81,6 +81,15 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
         return cell
     }
     
+    //get the week cell for a NSDate to call animate
+    func animateDayForMonth(date:NSDate)
+    {
+        let cellIndex:Int = CalendarUtils.getIndexOfWeekInMonth(date)
+        let indexPath:NSIndexPath = NSIndexPath(forRow: cellIndex, inSection: 0)
+        let week:CalendarWeekCell? = self.tableView!.cellForRowAtIndexPath(indexPath) as? CalendarWeekCell
+        week?.animateDayForWeek(date)
+    }
+    
     /**** Delegate methods ****/
     func calendarWeekOnDaySelected(day: NSDate) {
         self.delegate?.calendarMonthOnDaySelected(day)
