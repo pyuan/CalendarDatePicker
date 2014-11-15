@@ -40,11 +40,16 @@ class CalendarMonthHeaderCell:UIView
         //set text of label
         let formatter:NSDateFormatter = NSDateFormatter()
         formatter.dateFormat = "MMM"
-        let month:String = formatter.stringFromDate(firstDayOfMonth)
-        let currentMonth:String = formatter.stringFromDate(today)
+        let monthLabel:String = formatter.stringFromDate(firstDayOfMonth)
         
-        self.label?.text = month.uppercaseString
-        self.label?.textColor = month == currentMonth ? CalendarConstants.COLOR_RED : CalendarConstants.COLOR_BLACK
+        //compare if year and month are the same as the current date
+        let calendar:NSCalendar = NSCalendar.currentCalendar()
+        let unit:NSCalendarUnit = NSCalendarUnit.YearCalendarUnit | NSCalendarUnit.MonthCalendarUnit
+        let comps1:NSDateComponents = calendar.components(unit, fromDate: today)
+        let comps2:NSDateComponents = calendar.components(unit, fromDate: firstDayOfMonth)
+        
+        self.label?.text = monthLabel.uppercaseString
+        self.label?.textColor =  comps1.month == comps2.month && comps1.year == comps2.year ? CalendarConstants.COLOR_RED : CalendarConstants.COLOR_BLACK
         self.label?.sizeToFit()
         
         //position label
