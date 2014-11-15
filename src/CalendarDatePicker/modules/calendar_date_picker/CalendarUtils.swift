@@ -73,28 +73,18 @@ class CalendarUtils
     class func getDayOfWeek(date:NSDate) -> Int
     {
         let calendar:NSCalendar = NSCalendar.currentCalendar()
-        //let adjustedDate:NSDate = date.dateByAddingTimeInterval(60 * 60 * 5)
         let unit:NSCalendarUnit = NSCalendarUnit.WeekdayCalendarUnit
         let comps:NSDateComponents = calendar.components(unit, fromDate: date)
         let weekday:Int = comps.weekday
         return weekday
-        
-        /*
-        let formatter:NSDateFormatter = NSDateFormatter()
-        formatter.dateFormat = "c"
-        let dayString:String = formatter.stringFromDate(date)
-        let weekday:Int = dayString.toInt()!
-        return weekday
-        */
     }
 
     //return the day of the month for the provided date
     class func getDayOfMonth(date:NSDate) -> Int
     {
         let calendar:NSCalendar = NSCalendar.currentCalendar()
-        let adjustedDate:NSDate = date.dateByAddingTimeInterval(60 * 60 * 5)
         let unit:NSCalendarUnit = NSCalendarUnit.DayCalendarUnit
-        let comps:NSDateComponents = calendar.components(unit, fromDate: adjustedDate)
+        let comps:NSDateComponents = calendar.components(unit, fromDate: date)
         let monthday:Int = comps.day
         return monthday
     }

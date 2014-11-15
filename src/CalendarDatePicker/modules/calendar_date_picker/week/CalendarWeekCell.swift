@@ -37,6 +37,7 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         self.collectionView?.backgroundColor = UIColor.clearColor()
         self.collectionView?.bounces = false
         self.collectionView?.scrollEnabled = false
+        self.collectionView?.delaysContentTouches = false
         
         //draw top border
         self.topBorder = CALayer()
