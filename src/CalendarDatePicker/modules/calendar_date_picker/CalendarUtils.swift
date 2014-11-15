@@ -74,7 +74,8 @@ class CalendarUtils
     {
         let calendar:NSCalendar = NSCalendar.currentCalendar()
         //let adjustedDate:NSDate = date.dateByAddingTimeInterval(60 * 60 * 5)
-        let comps:NSDateComponents = calendar.components(NSCalendarUnit.CalendarUnitWeekday, fromDate: date)
+        let unit:NSCalendarUnit = NSCalendarUnit.WeekdayCalendarUnit
+        let comps:NSDateComponents = calendar.components(unit, fromDate: date)
         let weekday:Int = comps.weekday
         return weekday
         
