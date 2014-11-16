@@ -85,13 +85,12 @@ class CalendarDayCell:UICollectionViewCell
         if self.date != nil
         {
             var bgColor:UIColor = UIColor.clearColor()
+            
+            if isToday {
+                bgColor = CalendarConstants.COLOR_RED
+            }
             if selected {
                 bgColor = CalendarConstants.COLOR_BLACK
-            }
-            if isToday
-            {
-                let highlightColor:UIColor = CalendarConstants.COLOR_RED.colorWithAlphaComponent(0.5)
-                bgColor = selected ? CalendarConstants.COLOR_RED : highlightColor
             }
             
             self.background?.backgroundColor = bgColor
