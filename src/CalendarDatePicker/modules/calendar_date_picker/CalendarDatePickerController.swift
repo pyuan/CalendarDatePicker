@@ -36,12 +36,17 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         self.tableView?.separatorStyle = UITableViewCellSeparatorStyle.None
         self.tableView?.showsHorizontalScrollIndicator = false
         self.tableView?.showsVerticalScrollIndicator = false
+        self.tableView?.scrollsToTop = false
         
         //scroll to default date
         let today:NSDate = NSDate()
         let selectedDate:NSDate? = CalendarModel.sharedInstance.selectedDate
         let showDate:NSDate = selectedDate == nil ? today : selectedDate!
         self.goTo(showDate, animated: false)
+        
+        //remove bottom border
+        self.navigationController?.navigationBar.tintColor = CalendarConstants.COLOR_WEEK_HEADER
+        self.navigationController?.navigationBar.clipsToBounds = true
     }
     
     //scroll to show the month containing today
