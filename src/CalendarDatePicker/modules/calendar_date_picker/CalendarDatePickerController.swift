@@ -44,9 +44,23 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         let showDate:NSDate = selectedDate == nil ? today : selectedDate!
         self.goTo(showDate, animated: false)
         
-        //remove bottom border
-        self.navigationController?.navigationBar.tintColor = CalendarConstants.COLOR_WEEK_HEADER
-        self.navigationController?.navigationBar.clipsToBounds = true
+        //style navigation bar and remove bottom border
+        let bg:UIImage = self.getImageWithColor(CalendarConstants.COLOR_WEEK_HEADER)
+        self.navigationController?.navigationBar.setBackgroundImage(bg, forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = false
+    }
+    
+    //generate a UIImage from a color
+    private func getImageWithColor(color:UIColor) -> UIImage {
+        let rect:CGRect = CGRectMake(0, 0, 1, 1)
+        UIGraphicsBeginImageContext(rect.size)
+        let context:CGContextRef = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(context, color.CGColor)
+        CGContextFillRect(context, rect)
+        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
     
     //scroll to show the month containing today
