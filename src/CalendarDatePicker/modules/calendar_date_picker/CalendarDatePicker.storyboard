@@ -43,6 +43,15 @@
                                     <outlet property="delegate" destination="bSn-t7-KOc" id="Em6-1v-Vgk"/>
                                 </connections>
                             </tableView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gc0-Rz-4a1">
+                                <rect key="frame" x="0.0" y="86" width="600" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="zCd-vW-qwi"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="k8x-YP-GK0" kind="embed" identifier="dateDisplay" id="Nli-Kv-R6I"/>
+                                </connections>
+                            </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qNs-Ea-TmL">
                                 <rect key="frame" x="0.0" y="64" width="600" height="22"/>
                                 <constraints>
@@ -56,12 +65,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="eTz-Qe-Ull" firstAttribute="leading" secondItem="Xqw-M1-VYE" secondAttribute="leading" id="2G4-I9-VDm"/>
+                            <constraint firstItem="Gc0-Rz-4a1" firstAttribute="top" secondItem="qNs-Ea-TmL" secondAttribute="bottom" id="3NX-ca-ooS"/>
                             <constraint firstItem="qNs-Ea-TmL" firstAttribute="top" secondItem="aGC-ba-Rad" secondAttribute="bottom" id="Dvr-eF-VXA"/>
+                            <constraint firstAttribute="trailing" secondItem="Gc0-Rz-4a1" secondAttribute="trailing" id="IMG-zj-6Zs"/>
                             <constraint firstItem="qNs-Ea-TmL" firstAttribute="leading" secondItem="Xqw-M1-VYE" secondAttribute="leading" id="JBi-Le-sF1"/>
                             <constraint firstItem="G0t-Ak-Gmm" firstAttribute="top" secondItem="eTz-Qe-Ull" secondAttribute="bottom" constant="1" id="Lxd-Ea-BId"/>
                             <constraint firstItem="G0t-Ak-Gmm" firstAttribute="leading" secondItem="Xqw-M1-VYE" secondAttribute="leading" id="TWu-c6-Vb2"/>
                             <constraint firstAttribute="trailing" secondItem="eTz-Qe-Ull" secondAttribute="trailing" id="X7j-Y7-ywj"/>
                             <constraint firstItem="X1h-hK-vto" firstAttribute="top" secondItem="G0t-Ak-Gmm" secondAttribute="bottom" id="XUi-b9-Z7l"/>
+                            <constraint firstItem="Gc0-Rz-4a1" firstAttribute="leading" secondItem="Xqw-M1-VYE" secondAttribute="leading" id="cu7-Mi-UeK"/>
                             <constraint firstAttribute="trailing" secondItem="qNs-Ea-TmL" secondAttribute="trailing" id="hst-Jq-juE"/>
                             <constraint firstAttribute="trailing" secondItem="G0t-Ak-Gmm" secondAttribute="trailing" id="t5c-S1-Aho"/>
                             <constraint firstItem="eTz-Qe-Ull" firstAttribute="top" secondItem="qNs-Ea-TmL" secondAttribute="bottom" id="yG9-Pa-zet"/>
@@ -129,6 +141,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zyb-ne-lk6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="176" y="245"/>
+        </scene>
+        <!--Calendar Date Display Controller-->
+        <scene sceneID="0oX-XM-pkh">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="k8x-YP-GK0" customClass="CalendarDateDisplayController" customModule="CalendarDatePicker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="AbZ-bA-V93"/>
+                        <viewControllerLayoutGuide type="bottom" id="M1E-Vi-N15"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="nfk-4E-BNo">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YvJ-b5-Tsf">
+                                <rect key="frame" x="279" y="14" width="42" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="YvJ-b5-Tsf" secondAttribute="centerX" id="5e0-pS-ThH"/>
+                            <constraint firstAttribute="centerY" secondItem="YvJ-b5-Tsf" secondAttribute="centerY" id="WbN-9t-gDF"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <connections>
+                        <outlet property="label" destination="YvJ-b5-Tsf" id="SgC-0r-vU1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LE2-bp-AGj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1702" y="64"/>
         </scene>
     </scenes>
 </document>

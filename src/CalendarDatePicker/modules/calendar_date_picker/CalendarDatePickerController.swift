@@ -22,6 +22,8 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
     
     var delegate:CalendarDatePickerControllerDelegate?
     
+    private var dateDisplay:CalendarDateDisplayController?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -51,16 +53,12 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         self.navigationController?.navigationBar.translucent = false
     }
     
-    //generate a UIImage from a color
-    private func getImageWithColor(color:UIColor) -> UIImage {
-        let rect:CGRect = CGRectMake(0, 0, 1, 1)
-        UIGraphicsBeginImageContext(rect.size)
-        let context:CGContextRef = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextFillRect(context, rect)
-        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier != nil {
+            if segue.identifier == "dateDisplay" {
+                self.dateDisplay = segue.destinationViewController as? CalendarDateDisplayController
+            }
+        }
     }
     
     //scroll to show the month containing today
@@ -165,6 +163,33 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         return section
     }
     
+    //generate a UIImage from a color
+    private func getImageWithColor(color:UIColor) -> UIImage {
+        let rect:CGRect = CGRectMake(0, 0, 1, 1)
+        UIGraphicsBeginImageContext(rect.size)
+        let context:CGContextRef = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(context, color.CGColor)
+        CGContextFillRect(context, rect)
+        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
+    //show current date display
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let indexPaths:[NSIndexPath] = self.tableView?.indexPathsForVisibleRows() as [NSIndexPath]
+        if indexPaths.count > 0 {
+            let indexPath:NSIndexPath = indexPaths[0]
+            let date:NSDate = self.getDateForIndexPath(indexPath)
+            self.dateDisplay?.show(date)
+        }
+    }
+    
+    //hide current date display
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        self.dateDisplay?.hide()
+    }
+
     /**** delegate methods ****/
     func calendarMonthOnDaySelected(day: NSDate) {
         self.tableView?.reloadData()
