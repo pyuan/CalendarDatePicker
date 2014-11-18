@@ -23,6 +23,7 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
     var delegate:CalendarDatePickerControllerDelegate?
     
     private var dateDisplay:CalendarDateDisplayController?
+    private var selectedDate:NSDate?
     
     override func viewDidLoad()
     {
@@ -42,8 +43,7 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         
         //scroll to default date
         let today:NSDate = NSDate()
-        let selectedDate:NSDate? = CalendarModel.sharedInstance.selectedDate
-        let showDate:NSDate = selectedDate == nil ? today : selectedDate!
+        let showDate:NSDate = self.selectedDate == nil ? today : self.selectedDate!
         self.goTo(showDate, animated: false)
         
         //style navigation bar and remove bottom border
@@ -69,18 +69,17 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
     
     //scroll to show the selected month, to go today if no selected date
     @IBAction func goToSelectedDay(sender:AnyObject?) {
-        let selectedDate:NSDate? = CalendarModel.sharedInstance.selectedDate
-        selectedDate != nil ? self.goTo(selectedDate!, animated: true) : self.goToToday(nil)
+        self.selectedDate != nil ? self.goTo(self.selectedDate!, animated: true) : self.goToToday(nil)
     }
     
     //set the default selected date
     func setDefaultSelectedDate(date:NSDate?) {
-        CalendarModel.sharedInstance.selectedDate = date
+        self.selectedDate = date
     }
     
     //get the currently selected date
     func getSelectedDate() -> NSDate? {
-        return CalendarModel.sharedInstance.selectedDate
+        return self.selectedDate
     }
     
     //scroll to show entire specified month
@@ -117,7 +116,7 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         
         cell.delegate = self
         let date:NSDate = self.getDateForIndexPath(indexPath)
-        cell.setDate(date)
+        cell.setDate(date, selectedDate: self.selectedDate)
         
         return cell
     }
@@ -197,9 +196,9 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
 
     /**** delegate methods ****/
     func calendarMonthOnDaySelected(day: NSDate) {
+        self.selectedDate = day
         self.tableView?.reloadData()
         self.delegate?.calendarDatePickerOnDaySelected(day)
-        println(day)
     }
     
 }

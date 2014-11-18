@@ -26,6 +26,7 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
     private var topBorder:CALayer?
     private var baseDate:NSDate = NSDate()
     private var weekNum:Int = 0
+    private var selectedDate:NSDate?
     
     override func awakeFromNib()
     {
@@ -46,9 +47,10 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         self.layer.addSublayer(self.topBorder!)
     }
     
-    func update(baseDate:NSDate, weekNum:Int) {
+    func update(baseDate:NSDate, weekNum:Int, selectedDate:NSDate?) {
         self.baseDate = baseDate
         self.weekNum = weekNum
+        self.selectedDate = selectedDate
         self.collectionView?.reloadData()
     }
     
@@ -123,9 +125,6 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         var cellDate:NSDate? = cell.getDate()
         if cellDate != nil {
             self.delegate?.calendarWeekOnDaySelected(cellDate!)
-            
-            //update in singleton model
-            CalendarModel.sharedInstance.selectedDate = cellDate!
         }
     }
     
@@ -144,7 +143,7 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         
         //get current day for cell
         let cellDate:NSDate? = self.getCellDate(indexPath)
-        cell.update(cellDate)
+        cell.update(cellDate, selectedDate: self.selectedDate)
         
         //update top border for first and last weeks
         self.updateTopBorder()

@@ -24,6 +24,7 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     var delegate:CalendarMonthCellDelegate?
     
     private var baseDate:NSDate = NSDate()
+    private var selectedDate:NSDate?
     private var monthHeader:CalendarMonthHeaderCell?
     
     override func awakeFromNib()
@@ -45,8 +46,9 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     }
     
     //set the date for the month
-    func setDate(baseDate:NSDate) {
+    func setDate(baseDate:NSDate, selectedDate:NSDate?) {
         self.baseDate = baseDate
+        self.selectedDate = selectedDate
         self.tableView?.reloadData()
     }
     
@@ -73,7 +75,7 @@ class CalendarMonthCell:UITableViewCell, UITableViewDataSource, UITableViewDeleg
     {
         var cell:CalendarWeekCell = tableView.dequeueReusableCellWithIdentifier(CalendarWeekCell.CELL_REUSE_ID) as CalendarWeekCell
         cell.delegate = self
-        cell.update(self.baseDate, weekNum: indexPath.row)
+        cell.update(self.baseDate, weekNum: indexPath.row, selectedDate: self.selectedDate)
         
         //for some reason header can only position correctly here
         self.monthHeader?.setMonth(self.baseDate)

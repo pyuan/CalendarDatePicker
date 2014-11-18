@@ -25,13 +25,12 @@ class CalendarDayCell:UICollectionViewCell
     }
     
     //update text and style
-    func update(date:NSDate?)
+    func update(date:NSDate?, selectedDate:NSDate?)
     {
         self.date = date
         self.label?.hidden = self.date == nil
         
         //render if selected
-        let selectedDate:NSDate? = CalendarModel.sharedInstance.selectedDate
         if date != nil && selectedDate != nil {
             self.selected = CalendarUtils.sameDay(date!, date2: selectedDate!)
         } else {
