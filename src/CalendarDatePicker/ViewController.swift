@@ -30,6 +30,7 @@ class ViewController: UIViewController, CalendarDatePickerControllerDelegate, UI
         let vc:CalendarDatePickerController = nc.viewControllers[0] as CalendarDatePickerController
         vc.delegate = self
         vc.setTitle("My Date Picker")
+        vc.setCancelButtonTitle("OK")
         self.presentViewController(nc, animated: true, completion: nil)
         //self.navigationController?.presentViewController(nc, animated: true, completion: nil)
         //self.navigationController?.pushViewController(vc, animated: true)
@@ -67,7 +68,6 @@ class ViewController: UIViewController, CalendarDatePickerControllerDelegate, UI
     
     func calendarDatePickerOnCancel() {
         self.dismissViewControllerAnimated(true, completion: nil)
-        println("cancel")
     }
 
 }

@@ -79,15 +79,8 @@
                             <constraint firstItem="eTz-Qe-Ull" firstAttribute="top" secondItem="qNs-Ea-TmL" secondAttribute="bottom" id="yG9-Pa-zet"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="C0S-Fk-Uhx">
-                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="jp8-a1-7dg">
-                            <connections>
-                                <action selector="onCancel:" destination="bSn-t7-KOc" id="BXX-33-oKA"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="C0S-Fk-Uhx"/>
                     <connections>
-                        <outlet property="cancelBtn" destination="jp8-a1-7dg" id="lMT-c5-SXh"/>
                         <outlet property="selectedBtn" destination="ejq-F9-u7U" id="3Dv-Ap-Ly2"/>
                         <outlet property="tableView" destination="eTz-Qe-Ull" id="MGF-YI-HgP"/>
                         <outlet property="todayBtn" destination="dgf-dh-2Ub" id="Ra0-BI-mPl"/>

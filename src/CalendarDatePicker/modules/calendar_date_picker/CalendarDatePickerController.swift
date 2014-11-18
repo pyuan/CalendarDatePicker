@@ -31,6 +31,11 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
     {
         super.viewDidLoad()
         
+        //set default cancel button
+        if self.cancelBtn == nil {
+            self.setCancelButtonTitle("Cancel")
+        }
+        
         self.todayBtn?.tintColor = CalendarConstants.COLOR_RED
         self.selectedBtn?.tintColor = CalendarConstants.COLOR_BLACK
         self.cancelBtn?.tintColor = CalendarConstants.COLOR_RED
@@ -93,6 +98,15 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
     //set the title text for the picker
     func setTitle(title:String) {
         self.navigationItem.title = title
+        self.navigationItem.titleView?.hidden = title.isEmpty
+    }
+    
+    //set the label for the cancel button
+    func setCancelButtonTitle(title:String) {
+        self.cancelBtn = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.Bordered, target: self, action: "onCancel:")
+        self.navigationItem.rightBarButtonItem = self.cancelBtn
+        let view:UIView = self.cancelBtn?.valueForKey("view") as UIView
+        view.hidden = title.isEmpty
     }
     
     //scroll to show entire specified month
