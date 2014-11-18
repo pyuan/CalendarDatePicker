@@ -79,8 +79,15 @@
                             <constraint firstItem="eTz-Qe-Ull" firstAttribute="top" secondItem="qNs-Ea-TmL" secondAttribute="bottom" id="yG9-Pa-zet"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="C0S-Fk-Uhx"/>
+                    <navigationItem key="navigationItem" id="C0S-Fk-Uhx">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="jp8-a1-7dg">
+                            <connections>
+                                <action selector="onCancel:" destination="bSn-t7-KOc" id="BXX-33-oKA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="cancelBtn" destination="jp8-a1-7dg" id="lMT-c5-SXh"/>
                         <outlet property="selectedBtn" destination="ejq-F9-u7U" id="3Dv-Ap-Ly2"/>
                         <outlet property="tableView" destination="eTz-Qe-Ull" id="MGF-YI-HgP"/>
                         <outlet property="todayBtn" destination="dgf-dh-2Ub" id="Ra0-BI-mPl"/>
@@ -103,17 +110,7 @@
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="opk-9S-E6p">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </collectionViewCell>
-                        </cells>
+                        <cells/>
                         <connections>
                             <outlet property="dataSource" destination="ThG-35-QQz" id="OcU-OQ-YwL"/>
                             <outlet property="delegate" destination="ThG-35-QQz" id="SvD-Sk-UTa"/>

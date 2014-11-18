@@ -11,6 +11,7 @@ import UIKit
 
 protocol CalendarDatePickerControllerDelegate {
     func calendarDatePickerOnDaySelected(day:NSDate)
+    func calendarDatePickerOnCancel()
 }
 
 class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITableViewDelegate, CalendarMonthCellDelegate
@@ -19,6 +20,7 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
     @IBOutlet var tableView:UITableView?
     @IBOutlet var todayBtn:UIBarButtonItem?
     @IBOutlet var selectedBtn:UIBarButtonItem?
+    @IBOutlet var cancelBtn:UIBarButtonItem?
     
     var delegate:CalendarDatePickerControllerDelegate?
     
@@ -31,6 +33,7 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         
         self.todayBtn?.tintColor = CalendarConstants.COLOR_RED
         self.selectedBtn?.tintColor = CalendarConstants.COLOR_BLACK
+        self.cancelBtn?.tintColor = CalendarConstants.COLOR_RED
         
         //register month cell nib
         let monthNib:UINib = UINib(nibName: "CalendarMonthCell", bundle: nil)
@@ -72,6 +75,11 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         self.selectedDate != nil ? self.goTo(self.selectedDate!, animated: true) : self.goToToday(nil)
     }
     
+    //handle when the cancel button is clicked
+    @IBAction func onCancel(sender:AnyObject?) {
+        self.delegate?.calendarDatePickerOnCancel()
+    }
+    
     //set the default selected date
     func setDefaultSelectedDate(date:NSDate?) {
         self.selectedDate = date
@@ -80,6 +88,11 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
     //get the currently selected date
     func getSelectedDate() -> NSDate? {
         return self.selectedDate
+    }
+    
+    //set the title text for the picker
+    func setTitle(title:String) {
+        self.navigationItem.title = title
     }
     
     //scroll to show entire specified month

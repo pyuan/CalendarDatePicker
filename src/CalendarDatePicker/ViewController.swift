@@ -25,11 +25,14 @@ class ViewController: UIViewController, CalendarDatePickerControllerDelegate, UI
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        /*
         let storyboard:UIStoryboard = UIStoryboard(name: "CalendarDatePicker", bundle: nil)
-        let controller:UIViewController = storyboard.instantiateInitialViewController() as UIViewController
-        self.navigationController?.presentViewController(controller, animated: true, completion: nil)
-        */
+        let nc:UINavigationController = storyboard.instantiateInitialViewController() as UINavigationController
+        let vc:CalendarDatePickerController = nc.viewControllers[0] as CalendarDatePickerController
+        vc.delegate = self
+        vc.setTitle("My Date Picker")
+        self.presentViewController(nc, animated: true, completion: nil)
+        //self.navigationController?.presentViewController(nc, animated: true, completion: nil)
+        //self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func showDatePickerPopover(sender:AnyObject)
@@ -60,6 +63,11 @@ class ViewController: UIViewController, CalendarDatePickerControllerDelegate, UI
     func calendarDatePickerOnDaySelected(day: NSDate) {
         self.textField?.text = day.description
         self.popoverController?.dismissPopoverAnimated(true)
+    }
+    
+    func calendarDatePickerOnCancel() {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        println("cancel")
     }
 
 }
