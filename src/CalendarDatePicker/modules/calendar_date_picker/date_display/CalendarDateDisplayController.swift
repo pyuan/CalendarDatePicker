@@ -53,7 +53,7 @@ class CalendarDateDisplayController:UIViewController
         }
         
         if self.timer == nil {
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "hide", userInfo: nil, repeats: false)
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "hide", userInfo: nil, repeats: false)
         }
         
         self.updateDateLabel(date)

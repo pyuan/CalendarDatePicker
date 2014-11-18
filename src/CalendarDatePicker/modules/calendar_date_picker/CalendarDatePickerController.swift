@@ -78,11 +78,16 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         CalendarModel.sharedInstance.selectedDate = date
     }
     
+    //get the currently selected date
+    func getSelectedDate() -> NSDate? {
+        return CalendarModel.sharedInstance.selectedDate
+    }
+    
     //scroll to show entire specified month
     private func goTo(date:NSDate, animated:Bool)
     {
         let indexPath:NSIndexPath = self.getIndexPathForDate(date)
-        self.tableView?.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: animated)
+        self.tableView?.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: animated)
         
         //trigger animation if month is visible
         let monthCell:CalendarMonthCell? = self.tableView!.cellForRowAtIndexPath(indexPath) as? CalendarMonthCell
