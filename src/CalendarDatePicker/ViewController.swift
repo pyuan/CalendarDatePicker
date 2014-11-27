@@ -31,6 +31,7 @@ class ViewController: UIViewController, CalendarDatePickerControllerDelegate, UI
         vc.delegate = self
         vc.setTitle("My Date Picker")
         vc.setCancelButtonTitle("OK")
+        vc.disablePastDates = false
         self.presentViewController(nc, animated: true, completion: nil)
         //self.navigationController?.presentViewController(nc, animated: true, completion: nil)
         //self.navigationController?.pushViewController(vc, animated: true)
@@ -41,6 +42,7 @@ class ViewController: UIViewController, CalendarDatePickerControllerDelegate, UI
         let storyboard:UIStoryboard = UIStoryboard(name: "CalendarDatePicker", bundle: nil)
         let nc:UINavigationController = storyboard.instantiateInitialViewController() as UINavigationController
         self.datePickerController = nc.viewControllers[0] as? CalendarDatePickerController
+        self.datePickerController?.disablePastDates = true
         self.datePickerController?.delegate = self
         self.popoverController = UIPopoverController(contentViewController: nc)
         self.popoverController!.setPopoverContentSize(CGSizeMake(300, 400), animated: true)

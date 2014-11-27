@@ -18,6 +18,7 @@ class CalendarDayCell:UICollectionViewCell
     
     private var date:NSDate?
     private var background:UIView?
+    private var disablePastDates:Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,10 +26,11 @@ class CalendarDayCell:UICollectionViewCell
     }
     
     //update text and style
-    func update(date:NSDate?, selectedDate:NSDate?)
+    func update(date:NSDate?, selectedDate:NSDate?, disablePastDates:Bool)
     {
         self.date = date
         self.label?.hidden = self.date == nil
+        self.disablePastDates = disablePastDates
         
         //render if selected
         if date != nil && selectedDate != nil {
@@ -53,6 +55,7 @@ class CalendarDayCell:UICollectionViewCell
         self.selected = selected
         self.setBackgroundView(selected)
         self.setLabel(selected)
+        self.alpha = self.disablePastDates && self.cellIsPast() ? 0.25 : 1.0
     }
     
     //draw background for state
@@ -130,6 +133,17 @@ class CalendarDayCell:UICollectionViewCell
             isToday = CalendarUtils.sameDay(self.date!, date2: today)
         }
         return isToday
+    }
+    
+    //get if this cell is in the past
+    func cellIsPast() -> Bool
+    {
+        let today:NSDate = NSDate()
+        if self.cellIsToday() || self.date == nil {
+            return false
+        }
+        
+        return self.date!.compare(today) == NSComparisonResult.OrderedAscending
     }
     
     //show pulsing animation

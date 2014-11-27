@@ -23,6 +23,11 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
     @IBOutlet var cancelBtn:UIBarButtonItem?
     
     var delegate:CalendarDatePickerControllerDelegate?
+    var disablePastDates:Bool = false {
+        didSet {
+            self.tableView?.reloadData()
+        }
+    }
     
     private var dateDisplay:CalendarDateDisplayController?
     private var selectedDate:NSDate?
@@ -88,6 +93,7 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
     //set the default selected date
     func setDefaultSelectedDate(date:NSDate?) {
         self.selectedDate = date
+        self.tableView?.reloadData()
     }
     
     //get the currently selected date
@@ -143,7 +149,7 @@ class CalendarDatePickerController:UIViewController, UITableViewDataSource, UITa
         
         cell.delegate = self
         let date:NSDate = self.getDateForIndexPath(indexPath)
-        cell.setDate(date, selectedDate: self.selectedDate)
+        cell.setDate(date, selectedDate: self.selectedDate, disablePastDates: self.disablePastDates)
         
         return cell
     }

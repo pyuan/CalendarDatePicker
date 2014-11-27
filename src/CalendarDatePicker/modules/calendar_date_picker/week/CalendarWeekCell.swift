@@ -27,6 +27,7 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
     private var baseDate:NSDate = NSDate()
     private var weekNum:Int = 0
     private var selectedDate:NSDate?
+    private var disablePastDates:Bool = false
     
     override func awakeFromNib()
     {
@@ -47,10 +48,11 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         self.layer.addSublayer(self.topBorder!)
     }
     
-    func update(baseDate:NSDate, weekNum:Int, selectedDate:NSDate?) {
+    func update(baseDate:NSDate, weekNum:Int, selectedDate:NSDate?, disablePastDates:Bool) {
         self.baseDate = baseDate
         self.weekNum = weekNum
         self.selectedDate = selectedDate
+        self.disablePastDates = disablePastDates
         self.collectionView?.reloadData()
     }
     
@@ -119,12 +121,15 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         
         //select cell
         var cell:CalendarDayCell = collectionView.cellForItemAtIndexPath(indexPath) as CalendarDayCell
-        cell.updateSelected(true)
-        
-        //trigger delegate method
-        var cellDate:NSDate? = cell.getDate()
-        if cellDate != nil {
-            self.delegate?.calendarWeekOnDaySelected(cellDate!)
+        if !self.disablePastDates || (self.disablePastDates && !cell.cellIsPast())
+        {
+            cell.updateSelected(true)
+            
+            //trigger delegate method
+            var cellDate:NSDate? = cell.getDate()
+            if cellDate != nil {
+                self.delegate?.calendarWeekOnDaySelected(cellDate!)
+            }
         }
     }
     
@@ -143,7 +148,7 @@ class CalendarWeekCell:UITableViewCell, UICollectionViewDataSource, UICollection
         
         //get current day for cell
         let cellDate:NSDate? = self.getCellDate(indexPath)
-        cell.update(cellDate, selectedDate: self.selectedDate)
+        cell.update(cellDate, selectedDate: self.selectedDate, disablePastDates: self.disablePastDates)
         
         //update top border for first and last weeks
         self.updateTopBorder()
